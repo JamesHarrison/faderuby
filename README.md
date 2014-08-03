@@ -2,6 +2,13 @@
 
 Ruby interface for Fadecandy LED control servers using the Open Pixel Control protocol.
 
+## Requirements
+
+* Ruby 2.x, 2.1 or higher recommended - Faderuby does make use of named parameters
+* Faderuby server (fcserver)
+* Some cool LEDs
+* Nothing better to do with your life
+
 ## Installation
 
 Add this line to your application's Gemfile:
