@@ -23,12 +23,25 @@ describe(FadeRuby::Client) do
           expect(socket_mock).to receive(:send).with([0, 0, 3, 128, 128, 128].pack('CCS>CCC'), 0)
         end
       end
-      context 'setting 2 pixels on channel 1 to 256, 128, 0' do
+      context 'setting 2 pixels on channel 1 to 255, 128, 0' do
         after(:each) do
-          client.set_pixels([256, 128, 0, 256, 128, 0], 1)
+          client.set_pixels([255, 128, 0, 255, 128, 0], 1)
         end
         it 'should send the right message' do
-          expect(socket_mock).to receive(:send).with([1, 0, 6, 256, 128, 0, 256, 128, 0].pack('CCS>CCCCCC'), 0)
+          expect(socket_mock).to receive(:send).with([1, 0, 6, 255, 128, 0, 255, 128, 0].pack('CCS>CCCCCC'), 0)
+        end
+      end
+    end
+    describe '#write' do
+      context 'a 2-pixel strip on channel 1 to 255, 128, 0' do
+        let(:strip) { FadeRuby::Strip.new(2) }
+        after(:each) do
+          strip.pixels[0].set(r: 255, g: 128, b: 0)
+          strip.pixels[1].set(r: 255, g: 128, b: 0)
+          client.write(strip, 1)
+        end
+        it 'should send the right message' do
+          expect(socket_mock).to receive(:send).with([1, 0, 6, 255, 128, 0, 255, 128, 0].pack('CCS>CCCCCC'), 0)
         end
       end
     end
